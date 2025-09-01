@@ -1,6 +1,9 @@
 def handler(request):
-    return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": '{"status": "PM Internship Scraper API", "version": "1.0"}'
-    }
+    try:
+        # Debug environment
+        debug = {
+            "has_private_key": bool(os.environ.get("FIREBASE_PRIVATE_KEY")),
+            "client_email": os.environ.get("FIREBASE_CLIENT_EMAIL"),
+            "client_id": os.environ.get("FIREBASE_CLIENT_ID")
+        }
+        print("DEBUG ENV:", debug)
