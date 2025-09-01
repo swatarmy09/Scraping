@@ -1,17 +1,14 @@
-from flask import Flask, jsonify
+import json
 
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return jsonify({
-        "status": "PM Internship Scraper API",
-        "version": "1.0",
-        "project": "financialinsighthub-b6a2e",
-        "endpoints": {
-            "/api/scrape": "Scrape and save internships"
-        }
-    })
-
-if __name__ == '__main__':
-    app.run()
+def handler(request):
+    return {
+        "statusCode": 200,
+        "body": json.dumps({
+            "status": "PM Internship Scraper API",
+            "version": "1.0",
+            "project": "financialinsighthub-b6a2e",
+            "endpoints": {
+                "/api/scrape": "Scrape and save internships"
+            }
+        })
+    }

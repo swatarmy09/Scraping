@@ -5,9 +5,6 @@ from bs4 import BeautifulSoup
 import firebase_admin
 from firebase_admin import credentials, firestore
 import time
-from flask import Flask, jsonify
-
-app = Flask(__name__)
 
 def init_firebase():
     if not firebase_admin._apps:
@@ -59,8 +56,7 @@ def scrape_internships():
     except:
         return []
 
-@app.route('/api/scrape')
-def handler():
+def handler(request):
     try:
         db = init_firebase()
         internships = scrape_internships()
@@ -72,9 +68,12 @@ def handler():
                 batch.set(doc_ref, internship)
             batch.commit()
         
-        return jsonify({"success": True, "count": len(internships)})
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"success": True, "count": len(internships)})
+        }
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)})
-
-if __name__ == '__main__':
-    app.run()
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"success": False, "error": str(e)})
+        }
